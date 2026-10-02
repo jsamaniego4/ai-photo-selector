@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f6f5ef">
+    <meta name="description" content="Identify everyday objects with your camera using AI that runs in your browser.">
+    <title>Object Lens — AI photo selector</title>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="preconnect" href="https://storage.googleapis.com" crossorigin>
+    <link rel="stylesheet" href="./styles.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet@2.1.1/dist/mobilenet.min.js"></script>
+    <script defer src="./app.js"></script>
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="./" aria-label="Object Lens home">
+          <span class="brand-mark" aria-hidden="true">◉</span>
+          <span>object<span class="brand-light">lens</span></span>
+        </a>
+        <span class="privacy"><span class="privacy-dot" aria-hidden="true"></span>Private by design</span>
+      </header>
+
+      <section class="intro" aria-labelledby="page-title">
+        <p class="eyebrow">A little more curious</p>
+        <h1 id="page-title">What are<br class="mobile-break"> you looking at<span class="title-period">?</span></h1>
+        <p class="intro-copy">Point your camera at something. AI will help you put a name to it.</p>
+      </section>
+
+      <section class="scanner" aria-label="Object photo and identification">
+        <div class="photo-stage" id="photo-stage">
+          <div class="empty-state" id="empty-state">
+            <div class="scan-art" aria-hidden="true">
+              <span class="scan-corner corner-tl"></span>
+              <span class="scan-corner corner-tr"></span>
+              <span class="scan-corner corner-bl"></span>
+              <span class="scan-corner corner-br"></span>
+              <span class="scan-spark">✳</span>
+              <span class="scan-circle"></span>
+              <span class="scan-plus">+</span>
+            </div>
+            <p>Your next discovery starts here</p>
+            <span>Take or choose a photo to get started</span>
+          </div>
+          <video id="camera-preview" class="media-preview" autoplay playsinline hidden aria-label="Live camera preview"></video>
+          <img id="photo-preview" class="media-preview" alt="Photo ready for object identification" hidden>
+          <div class="stage-badge" id="stage-badge" hidden>
+            <span class="privacy-dot" aria-hidden="true"></span>
+            <span id="stage-badge-text">Photo ready</span>
+          </div>
+        </div>
+
+        <div class="controls">
+          <button class="button button-secondary" id="camera-button" type="button">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7.5h3l1.4-2h7.2l1.4 2h3v11H4z"></path><circle cx="12" cy="13" r="3.5"></circle></svg>
+            <span>Take a photo</span>
+          </button>
+          <button class="button button-secondary" id="upload-button" type="button">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V4m0 0L8 8m4-4 4 4M5 14v5h14v-5"></path></svg>
+            <span>Choose photo</span>
+          </button>
+          <input id="file-input" type="file" accept="image/*" capture="environment" hidden>
+          <button class="button button-primary" id="identify-button" type="button" disabled>
+            <span>Identify object</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"></path></svg>
+          </button>
+          <button class="button button-capture" id="capture-button" type="button" hidden>
+            <span class="capture-icon" aria-hidden="true"></span>
+            Capture photo
+          </button>
+        </div>
+
+        <p class="status-message" id="status-message" role="status" aria-live="polite">Your image stays on this device. No account needed.</p>
+
+        <section class="results" id="results" aria-labelledby="results-title" hidden>
+          <div class="result-heading">
+            <div>
+              <p class="eyebrow">Your photo, decoded</p>
+              <h2 id="results-title">It looks like a <span id="top-label"></span></h2>
+            </div>
+            <span class="result-spark" aria-hidden="true">✳</span>
+          </div>
+          <div class="confidence-row">
+            <span>AI confidence</span>
+            <span id="top-confidence"></span>
+          </div>
+          <div class="confidence-track" aria-hidden="true"><span id="confidence-bar"></span></div>
+          <div class="alternatives" id="alternatives" aria-label="Other possible matches"></div>
+          <p class="fine-print">AI guesses can be imperfect. Use this as a helpful hint, not a sure thing.</p>
+        </section>
+      </section>
+
+      <footer class="footer">
+        <span>Powered by on-device AI</span>
+        <span class="footer-separator" aria-hidden="true">·</span>
+        <span>Your photos never leave your browser</span>
+      </footer>
+    </main>
+  </body>
+</html>
